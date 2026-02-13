@@ -13,6 +13,7 @@ Route::get('/', function () {
 Route::get('/flights', [FlightController::class, 'searchView'])->name('flights.index');
 Route::get('/flights/available', [FlightController::class, 'availableView'])->name('flights.available');
 Route::get('/api/cities', [FlightController::class, 'getCities']);
+Route::get('/api/all-flights', [FlightController::class, 'getAllFlights']);
 Route::post('/api/search', [FlightController::class, 'search']);
 Route::post('/api/book', [FlightController::class, 'book']);
 

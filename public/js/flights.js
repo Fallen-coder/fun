@@ -10,13 +10,13 @@ const bookingForm = document.getElementById('booking-form');
 const selectedFlightIdInput = document.getElementById('selected-flight-id');
 
 // Format date for display
-function formatDate(dateString) {
+window.formatDate = function(dateString) {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
     return new Date(dateString).toLocaleDateString(undefined, options);
 }
 
 // Format time duration
-function formatDuration(departure, arrival) {
+window.formatDuration = function(departure, arrival) {
     const depTime = new Date(departure);
     const arrTime = new Date(arrival);
     const diffMs = arrTime - depTime;
@@ -160,7 +160,7 @@ function searchFlights(formData) {
 }
 
 // Open booking modal
-function openBookingModal(flightId, passengerCount, price) {
+window.openBookingModal = function(flightId, passengerCount, price) {
     if (selectedFlightIdInput) {
         selectedFlightIdInput.value = flightId;
         document.getElementById('booking-passengers').value = passengerCount;

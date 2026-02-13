@@ -114,4 +114,10 @@ class FlightController extends Controller
         
         return response()->json($cities);
     }
+    
+    public function getAllFlights()
+    {
+        $flights = Flight::all();
+        return response()->json($flights);
+    }
 }
