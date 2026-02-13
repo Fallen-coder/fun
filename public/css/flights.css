@@ -310,11 +310,42 @@ button:hover {
     background-color: #f0f8fa;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .booking-info {
     flex: 1;
+    min-width: 300px;
+}
+
+.user-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #d0e6ec;
+    width: 100%;
+}
+
+.user-details h3 {
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+.booking-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #d0e6ec;
+}
+
+.cancelled-status {
+    color: #e74c3c;
+    font-weight: bold;
 }
 
 .delete-button {
@@ -327,6 +358,7 @@ button:hover {
     transition: background-color 0.3s;
     font-weight: 500;
     color: white;
+    align-self: flex-start;
 }
 
 .delete-button:hover {

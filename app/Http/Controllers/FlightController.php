@@ -11,12 +11,7 @@ class FlightController extends Controller
 {
     public function index()
     {
-        return redirect()->route('flights.index');
-    }
-
-    public function searchView()
-    {
-        return view('flights.search');
+        return redirect()->route('flights.available');
     }
 
     public function availableView()
@@ -59,7 +54,7 @@ class FlightController extends Controller
 
             // Check if enough seats are available
             if ($flight->seats_available < $request->passenger_count) {
-                return response()->json(['error' => 'Not enough seats available'], 400);
+                return response()->json(['error' => "Not enough seats available. Only {$flight->seats_available} seats remain."], 400);
             }
 
             $booking = Booking::create([
@@ -119,5 +114,11 @@ class FlightController extends Controller
     {
         $flights = Flight::all();
         return response()->json($flights);
+    }
+    
+    public function getFlight($id)
+    {
+        $flight = Flight::findOrFail($id);
+        return response()->json($flight);
     }
 }

@@ -13,8 +13,7 @@
     </header>
 
     <nav class="main-nav">
-        <a href="{{ route('flights.index') }}" class="{{ request()->routeIs('flights.index') ? 'active' : '' }}">Search Flights</a>
-        <a href="{{ route('flights.available') }}" class="{{ request()->routeIs('flights.available') ? 'active' : '' }}">Available Flights</a>
+        <a href="{{ route('flights.available') }}" class="{{ request()->routeIs('flights.available') ? 'active' : '' }}">Find Flights</a>
         <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.index') ? 'active' : '' }}">My Bookings</a>
     </nav>
 

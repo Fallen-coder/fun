@@ -4,31 +4,43 @@
 
 @section('content')
 <div class="section-container">
-    <h2>Available Flights</h2>
+    <h2>Find & Book Flights</h2>
     
-    <!-- Filters -->
-    <div class="filters-container">
+    <!-- Search Form -->
+    <form id="search-form">
         <div class="form-row">
             <div class="form-group">
-                <label for="filter-from">From:</label>
-                <select id="filter-from">
+                <label for="from">From:</label>
+                <select id="from" name="from">
+                    <option value="">All Cities</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="to">To:</label>
+                <select id="to" name="to">
                     <option value="">All Cities</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <label for="filter-to">To:</label>
-                <select id="filter-to">
-                    <option value="">All Cities</option>
-                </select>
+                <label for="departure">Departure Date:</label>
+                <input type="date" id="departure" name="departure">
+            </div>
+
+            <div class="form-group">
+                <label for="return">Return Date:</label>
+                <input type="date" id="return" name="return">
             </div>
             
             <div class="form-group">
-                <label for="filter-max-price">Max Price:</label>
-                <input type="number" id="filter-max-price" placeholder="Any price">
+                <label for="max-price">Max Price:</label>
+                <input type="number" id="max-price" name="max_price" placeholder="Any price">
             </div>
         </div>
-    </div>
+
+        <button type="submit">Search Flights</button>
+    </form>
     
     <div id="flight-results">
         <p>Loading flights...</p>
@@ -41,6 +53,10 @@
 let allFlights = []; // Store all flights for filtering
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize date picker
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('departure').min = today;
+    
     // Load all available flights on page load
     fetch('/api/all-flights')
         .then(response => response.json())
@@ -51,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Populate city dropdowns
+            // Populate city dropdowns for search
             populateCityDropdowns(flights);
             
             // Display all flights initially
@@ -62,56 +78,74 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('flight-results').innerHTML = '<p>Error loading flights. Please try again later.</p>';
         });
     
-    // Add event listeners for filters
-    document.getElementById('filter-from').addEventListener('change', applyFilters);
-    document.getElementById('filter-to').addEventListener('change', applyFilters);
-    document.getElementById('filter-max-price').addEventListener('input', applyFilters);
+    // Add event listener for search form
+    document.getElementById('search-form').addEventListener('submit', handleSearch);
 });
 
 function populateCityDropdowns(flights) {
-    const fromSelect = document.getElementById('filter-from');
-    const toSelect = document.getElementById('filter-to');
+    // Populate search 'from' dropdown
+    const searchFromSelect = document.getElementById('from');
+    const searchToSelect = document.getElementById('to');
     
     // Get unique cities
     const fromCities = [...new Set(flights.map(flight => flight.from))].sort();
     const toCities = [...new Set(flights.map(flight => flight.to))].sort();
     
-    // Populate 'from' dropdown
+    // Populate search 'from' dropdown
     fromCities.forEach(city => {
         const option = document.createElement('option');
         option.value = city;
         option.textContent = city;
-        fromSelect.appendChild(option);
+        searchFromSelect.appendChild(option);
     });
     
-    // Populate 'to' dropdown
+    // Populate search 'to' dropdown
     toCities.forEach(city => {
         const option = document.createElement('option');
         option.value = city;
         option.textContent = city;
-        toSelect.appendChild(option);
+        searchToSelect.appendChild(option);
     });
 }
 
-function applyFilters() {
-    const fromFilter = document.getElementById('filter-from').value.toLowerCase();
-    const toFilter = document.getElementById('filter-to').value.toLowerCase();
-    const maxPriceFilter = parseFloat(document.getElementById('filter-max-price').value) || Infinity;
+function handleSearch(e) {
+    e.preventDefault();
     
-    const filteredFlights = allFlights.filter(flight => {
-        const matchesFrom = !fromFilter || flight.from.toLowerCase().includes(fromFilter);
-        const matchesTo = !toFilter || flight.to.toLowerCase().includes(toFilter);
-        const matchesPrice = flight.price <= maxPriceFilter;
+    const formData = {
+        from: document.getElementById('from').value,
+        to: document.getElementById('to').value,
+        departure: document.getElementById('departure').value,
+        return: document.getElementById('return').value,
+        max_price: document.getElementById('max-price').value
+    };
+    
+    // If no filters are applied, show all flights
+    if (!formData.from && !formData.to && !formData.departure && !formData.max_price) {
+        displayFlights(allFlights);
+        return;
+    }
+    
+    // Perform search by filtering the allFlights array
+    let searchedFlights = allFlights.filter(flight => {
+        // Only apply filters for fields that have values
+        const matchesFrom = !formData.from || flight.from.toLowerCase().includes(formData.from.toLowerCase());
+        const matchesTo = !formData.to || flight.to.toLowerCase().includes(formData.to.toLowerCase());
+        const matchesDate = !formData.departure || new Date(flight.departure).toISOString().split('T')[0] === formData.departure;
+        const matchesMaxPrice = !formData.max_price || flight.price <= parseFloat(formData.max_price);
         
-        return matchesFrom && matchesTo && matchesPrice;
+        // For return date, we'll skip this filter if not provided
+        // (since return date isn't stored in our flight records)
+        
+        return matchesFrom && matchesTo && matchesDate && matchesMaxPrice;
     });
     
-    displayFlights(filteredFlights);
+    // Display the search results
+    displayFlights(searchedFlights);
 }
 
 function displayFlights(flights) {
     if (flights.length === 0) {
-        document.getElementById('flight-results').innerHTML = '<p>No flights match your filters.</p>';
+        document.getElementById('flight-results').innerHTML = '<p>No flights match your criteria.</p>';
         return;
     }
 

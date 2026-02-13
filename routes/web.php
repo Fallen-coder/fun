@@ -4,16 +4,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\BookingController;
 
-// Main landing page - redirect to search
+// Main landing page - redirect to available flights
 Route::get('/', function () {
-    return redirect()->route('flights.index');
+    return redirect()->route('flights.available');
 });
 
 // Flight routes
-Route::get('/flights', [FlightController::class, 'searchView'])->name('flights.index');
+Route::get('/flights', [FlightController::class, 'availableView'])->name('flights.index');
 Route::get('/flights/available', [FlightController::class, 'availableView'])->name('flights.available');
 Route::get('/api/cities', [FlightController::class, 'getCities']);
 Route::get('/api/all-flights', [FlightController::class, 'getAllFlights']);
+Route::get('/api/flights/{id}', [FlightController::class, 'getFlight']);
 Route::post('/api/search', [FlightController::class, 'search']);
 Route::post('/api/book', [FlightController::class, 'book']);
 

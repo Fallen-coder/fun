@@ -180,36 +180,83 @@ function closeBookingModal() {
 
 // Book a flight
 function bookFlight(formData) {
-    fetch('/api/book', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(`Booking confirmed! Reference: ${data.booking.booking_reference}`);
-            closeBookingModal();
-            
-            // Redirect to bookings page to see the new booking
-            window.location.href = '/bookings';
-        } else if (data.errors) {
-            let errorMessage = 'Validation errors:\n';
-            for (let field in data.errors) {
-                errorMessage += `- ${field}: ${data.errors[field].join(', ')}\n`;
+    // First, get the flight details to check available seats
+    fetch(`/api/flights/${formData.flight_id}`)
+        .then(response => response.json())
+        .then(flight => {
+            // Validate passenger count against available seats
+            if (flight.seats_available < formData.passenger_count) {
+                alert(`Not enough seats available. Only ${flight.seats_available} seats remain for this flight.`);
+                return;
             }
-            alert(errorMessage);
-        } else {
-            alert(data.error || 'Booking failed. Please try again.');
-        }
-    })
-    .catch(error => {
-        console.error('Error booking flight:', error);
-        alert('An error occurred while booking the flight.');
-    });
+            
+            // Proceed with booking if validation passes
+            fetch('/api/book', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Booking confirmed! Reference: ${data.booking.booking_reference}`);
+                    closeBookingModal();
+
+                    // Redirect to bookings page to see the new booking
+                    window.location.href = '/bookings';
+                } else if (data.errors) {
+                    let errorMessage = 'Validation errors:\n';
+                    for (let field in data.errors) {
+                        errorMessage += `- ${field}: ${data.errors[field].join(', ')}\n`;
+                    }
+                    alert(errorMessage);
+                } else {
+                    alert(data.error || 'Booking failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error booking flight:', error);
+                alert('An error occurred while booking the flight.');
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching flight details:', error);
+            
+            // If we can't fetch flight details, proceed with booking anyway
+            fetch('/api/book', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Booking confirmed! Reference: ${data.booking.booking_reference}`);
+                    closeBookingModal();
+
+                    // Redirect to bookings page to see the new booking
+                    window.location.href = '/bookings';
+                } else if (data.errors) {
+                    let errorMessage = 'Validation errors:\n';
+                    for (let field in data.errors) {
+                        errorMessage += `- ${field}: ${data.errors[field].join(', ')}\n`;
+                    }
+                    alert(errorMessage);
+                } else {
+                    alert(data.error || 'Booking failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error booking flight:', error);
+                alert('An error occurred while booking the flight.');
+            });
+        });
 }
 
 // Cancel a booking
