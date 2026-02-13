@@ -1,0 +1,450 @@
+/* flights.css - Blue-ish Dirty Turquoise Color Scheme */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #5a92a5, #6e8a92, #5a92a5); /* Dirty turquoise gradient */
+    color: #2c3e50; /* Dark blue-gray text */
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+header {
+    background: linear-gradient(to right, #4a7b8c, #5a92a5); /* Dirty turquoise header */
+    color: #ecf0f1;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 1px solid #3a6a7a;
+}
+
+header h1 {
+    font-size: 2.2rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+/* Main Navigation */
+.main-nav {
+    display: flex;
+    background: linear-gradient(to bottom, #5a92a5, #4a7b8c); /* Dirty turquoise nav */
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.main-nav a {
+    flex: 1;
+    padding: 1rem;
+    text-decoration: none;
+    color: #ecf0f1; /* Light text */
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    border-right: 1px solid #3a6a7a;
+    transition: all 0.3s ease;
+}
+
+.main-nav a:last-child {
+    border-right: none;
+}
+
+.main-nav a:hover {
+    background: linear-gradient(to bottom, #6e8a92, #5a7b8c);
+}
+
+.main-nav a.active {
+    background: linear-gradient(to bottom, #3a6a7a, #2c5a6a);
+    color: #ffffff;
+    position: relative;
+}
+
+.main-nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #2980b9; /* Bright blue accent */
+}
+
+/* Common section styling */
+.section-container {
+    background-color: #e0f0f5; /* Light blue background */
+    margin: 0 0 1.5rem 0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #a0c0cc;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-bottom: 1px solid #a0c0cc;
+    padding-bottom: 0.5rem;
+}
+
+/* Improve form layout */
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.form-row .form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Improve flight card layout */
+.flight-card {
+    border: 1px solid #a0c0cc;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f0f8fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: box-shadow 0.3s;
+    gap: 1rem;
+}
+
+.flight-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.price-and-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 150px;
+}
+
+@media (max-width: 768px) {
+    .flight-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .price-and-button {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.form-group input, .form-group select {
+    padding: 0.75rem;
+    border: 1px solid #a0c0cc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: #2c3e50;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: #5a92a5;
+    box-shadow: 0 0 0 2px rgba(90, 146, 165, 0.2);
+}
+
+button {
+    background: linear-gradient(to bottom, #5a92a5, #4a7b8c); /* Dirty turquoise */
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #4a7b8c, #3a6a7a);
+}
+
+.flight-card {
+    border: 1px solid #a0c0cc;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f0f8fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: box-shadow 0.3s;
+}
+
+.flight-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.flight-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.flight-route {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.route-city {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.route-arrow {
+    align-self: center;
+    margin: 0 1rem;
+    font-size: 1.2rem;
+    color: #5a92a5;
+}
+
+.flight-details {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: #6a8ca5;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.price {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2c3e50;
+    min-width: 120px;
+    text-align: center;
+    background-color: #d0e6ec;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.price small {
+    font-size: 0.8rem;
+    color: #6a8ca5;
+    display: block;
+    margin-top: 0.25rem;
+    font-weight: normal;
+}
+
+.book-button {
+    background: linear-gradient(to bottom, #3498db, #2980b9); /* Blue button */
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+    color: white;
+}
+
+.book-button:hover {
+    background: linear-gradient(to bottom, #2980b9, #1c6ea4);
+}
+
+.booking-card {
+    border: 1px solid #a0c0cc;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f0f8fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-info {
+    flex: 1;
+}
+
+.delete-button {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b); /* Red for delete */
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+    color: white;
+}
+
+.delete-button:hover {
+    background: linear-gradient(to bottom, #c0392b, #a93226);
+}
+
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    color: #6a8ca5;
+    font-style: italic;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(90, 146, 165, 0.7); /* Dirty turquoise overlay */
+}
+
+.modal-content {
+    background-color: #f0f8fa;
+    margin: 10% auto;
+    padding: 1.5rem;
+    border: 1px solid #a0c0cc;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.close {
+    color: #6a8ca5;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close:hover,
+.close:focus {
+    color: #2c3e50;
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    text-align: center;
+    font-weight: 500;
+}
+
+#booking-form .form-group {
+    margin-bottom: 1.2rem;
+}
+
+#booking-form button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .main-nav {
+        flex-direction: column;
+    }
+
+    .main-nav a {
+        border-right: none;
+        border-bottom: 1px solid #3a6a7a;
+    }
+
+    .main-nav a:last-child {
+        border-bottom: none;
+    }
+
+    .flight-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .price {
+        width: 100%;
+        margin-top: 1rem;
+        text-align: left;
+    }
+
+    .flight-details {
+        width: 100%;
+    }
+
+    .booking-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .delete-button {
+        margin-top: 1rem;
+        align-self: flex-end;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 15% auto;
+    }
+}
