@@ -46,13 +46,20 @@ jobs:
       run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
     - name: Copy Environment Configuration
-      run: cp .env.example .env
+      run: |
+        cp .env.example .env
+        php -r "file_put_contents('.env', str_replace('DB_CONNECTION=sqlite', 'DB_CONNECTION=mysql', file_get_contents('.env')));"
+        php -r "file_put_contents('.env', preg_replace('/DB_HOST=.*/', 'DB_HOST=127.0.0.1', file_get_contents('.env')));"
+        php -r "file_put_contents('.env', preg_replace('/DB_PORT=.*/', 'DB_PORT=3306', file_get_contents('.env')));"
+        php -r "file_put_contents('.env', preg_replace('/DB_DATABASE=.*/', 'DB_DATABASE=testing', file_get_contents('.env')));"
+        php -r "file_put_contents('.env', preg_replace('/DB_USERNAME=.*/', 'DB_USERNAME=root', file_get_contents('.env')));"
+        php -r "file_put_contents('.env', preg_replace('/DB_PASSWORD=.*/', 'DB_PASSWORD=password', file_get_contents('.env')));"
 
     - name: Generate Application Key
       run: php artisan key:generate
 
     - name: Run Database Migrations
-      run: php artisan migrate --env=testing --database=mysql_testing --force
+      run: php artisan migrate --database=mysql --force
 
     - name: Run Unit Tests
       run: php artisan test --testsuite=Unit
